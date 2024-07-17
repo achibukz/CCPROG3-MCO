@@ -11,11 +11,7 @@ public class driver {
      * 
      * @param args The command line arguments.
      */
-    public static void main(String[] args) {
-        driver drv = new driver();
         
-        drv.displayMenu();
-    }
 
     /**
      * Prints a line of dashes to separate sections in the menu.
