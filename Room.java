@@ -6,17 +6,28 @@ public class Room {
 
     private String roomID;
     private boolean[] avail = new boolean[31]; // true: Available, false: Booked
+    private double[] disc = new double[31]; // Discount for each date 
     private int[] state = new int[31]; // 0: Neither CheckIn nor CheckOut, 1: CheckIn, 2: CheckOut
+    protected double Price;
 
     /**
      * Constructs a Room object with the given room ID.
      *
      * @param roomID the ID of the room
      */
-    public Room(String roomID){
+    public Room(String roomID, double basePrice) {
+        this.roomID = roomID;
+        this.Price = basePrice;
+        setAvail();
+        setState();
+        setDisc();
+    }
+
+    public Room(String roomID) {
         this.roomID = roomID;
         setAvail();
         setState();
+        setDisc();
     }
 
     /**
@@ -37,6 +48,12 @@ public class Room {
         }
     }
 
+    public void setDisc(){
+        for (int i = 0; i < 31; i++){
+            this.disc[i] = 1;
+        }
+    }
+
     /**
      * Books the room for the specified check-in and check-out dates.
      *
@@ -50,6 +67,14 @@ public class Room {
 
         state[checkInDate - 1] = 1;
         state[checkOutDate - 1] = 2;
+    }
+
+    public void updPrice(double basePrice){
+        this.Price = basePrice;
+    }
+
+    public double getPrice(){
+        return Price;
     }
 
     /**
@@ -127,5 +152,12 @@ public class Room {
         return state[date - 1];
     }
 
+    public double getDisc(int date){
+        return disc[date - 1];
+    }
+
+    public void setDisc(int date, double discount){
+        disc[date - 1] = discount;
+    }
 
 }

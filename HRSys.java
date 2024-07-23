@@ -1,3 +1,4 @@
+
 import java.util.Scanner;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -72,6 +73,9 @@ public class HRSys {
         Scanner scan = new Scanner(System.in);
         String name;
         int numRooms;
+        int stdCnt;
+        int delCnt;
+        int execCnt;
 
         System.out.println("Enter the name of the hotel: ");
         name = scan.nextLine();
@@ -83,15 +87,32 @@ public class HRSys {
             nameExists = checkIfNameExists(name);
         }
 
-        System.out.println("Enter the number of rooms in the hotel: ");
+        
+        System.out.println("Enter the number of standard rooms: ");
+        stdCnt = scan.nextInt();
 
-        numRooms = scan.nextInt();
-        while (numRooms < 1 || numRooms > 50) {
-            System.out.println("Invalid number of rooms. Please enter a number between 1 and 50: ");
-            numRooms = scan.nextInt();
+        while (stdCnt < 1 || stdCnt > 48) {
+            System.out.println("Invalid number of standard rooms. Please enter a number between 1 and 48: ");
+            stdCnt = scan.nextInt();
+        }
+
+        System.out.println("Enter the number of deluxe rooms: ");
+        delCnt = scan.nextInt();
+
+        while (delCnt < 1 || delCnt > 49 || stdCnt + delCnt > 49) {
+            System.out.println("Invalid number of deluxe rooms. Please enter a number between 1 and " + (49 - stdCnt) + ": ");
+            delCnt = scan.nextInt();
+        }
+
+        System.out.println("Enter the number of executive rooms: ");
+        execCnt = scan.nextInt();
+
+        while (execCnt < 1 || execCnt > 50 || stdCnt + delCnt + execCnt > 50) {
+            System.out.println("Invalid number of executive rooms. Please enter a number between 1 and " + (50 - stdCnt - delCnt) + ": ");
+            execCnt = scan.nextInt();
         }
         
-        Hotel hotel = new Hotel(name, numRooms);
+        Hotel hotel = new Hotel(name, stdCnt, delCnt, execCnt);
         hotels.add(hotel);
 
         blank();
@@ -143,9 +164,27 @@ public class HRSys {
 
         if (check == 1){
             blank();
-            System.out.println("Rooms in " + hotelName + ":");
+            System.out.println("Standard Rooms in " + hotelName + ":");
             blank();
-            for(Room room : hotels.get(hotelNumber - 1).getRooms()){
+            for(Room room : hotels.get(hotelNumber - 1).getRooms(1)){
+                System.out.println(count + ": " + room.getRoomID());
+                count++;
+            }
+            blank();
+
+            blank();
+            System.out.println("Deluxe Rooms in " + hotelName + ":");
+            blank();
+            for(Room room : hotels.get(hotelNumber - 1).getRooms(2)){
+                System.out.println(count + ": " + room.getRoomID());
+                count++;
+            }
+            blank();
+
+            blank();
+            System.out.println("Executive Rooms in " + hotelName + ":");
+            blank();
+            for(Room room : hotels.get(hotelNumber - 1).getRooms(3)){
                 System.out.println(count + ": " + room.getRoomID());
                 count++;
             }
@@ -153,20 +192,65 @@ public class HRSys {
         }
         if (check == 2) {
             blank();
-            System.out.println("Available Rooms in " + hotelName + ":");
+            System.out.println("Available Standard Rooms in " + hotelName + ":");
             blank();
-            for (Room room : hotels.get(hotelNumber - 1).getRooms()) {
+            for (Room room : hotels.get(hotelNumber - 1).getRooms(1)) {
                 if (!room.isBook()) {
                     System.out.println(count + ": " + room.getRoomID());
                     count++;
                 }
             }
             blank();
+
+            blank();
+            System.out.println("Available Deluxe Rooms in " + hotelName + ":");
+            blank();
+            for (Room room : hotels.get(hotelNumber - 1).getRooms(2)) {
+                if (!room.isBook()) {
+                    System.out.println(count + ": " + room.getRoomID());
+                    count++;
+                }
+            }
+
+            blank();
+            blank();
+            System.out.println("Available Executive Rooms in " + hotelName + ":");
+            blank();
+            for (Room room : hotels.get(hotelNumber - 1).getRooms(3)) {
+                if (!room.isBook()) {
+                    System.out.println(count + ": " + room.getRoomID());
+                    count++;
+                }
+            }
+            blank();
+
         } else if (check == 3) {
             blank();
-            System.out.println("Booked Rooms in " + hotelName + ":");
+            System.out.println("Booked Standard Rooms in " + hotelName + ":");
             blank();
-            for (Room room : hotels.get(hotelNumber - 1).getRooms()) {
+            for (Room room : hotels.get(hotelNumber - 1).getRooms(1)) {
+                if (room.isBook()) {
+                    System.out.println(count + ": " + room.getRoomID());
+                    count++;
+                }
+            }
+            blank();
+
+            blank();
+            System.out.println("Booked Deluxe Rooms in " + hotelName + ":");
+            blank();
+            for (Room room : hotels.get(hotelNumber - 1).getRooms(2)) {
+                if (room.isBook()) {
+                    System.out.println(count + ": " + room.getRoomID());
+                    count++;
+                }
+            }
+            blank();
+
+            blank();
+            System.out.println("Booked Executive Rooms in " + hotelName + ":");
+            blank();
+            for (Room room : hotels.get(hotelNumber - 1).getRooms(3)) {
                 if (room.isBook()) {
                     System.out.println(count + ": " + room.getRoomID());
                     count++;
@@ -177,7 +261,7 @@ public class HRSys {
 
         
 
-        System.out.println("Enter the number of the room: ");
+        System.out.println("Enter the RoomID of the room: ");
         int roomNumber = scan.nextInt();
         scan.nextLine();
 
@@ -223,27 +307,73 @@ public class HRSys {
         // FOR CHECK IN
         if (check == 1) {
             blank();
-            System.out.println("Available Rooms in " + hotelName + " on Day " + date + ":");
+            System.out.println("Available Standard Rooms in " + hotelName + " on Day " + date + ":");
             blank();
-            for (Room room : hotels.get(hotelNumber - 1).getRooms()) {
+            for (Room room : hotels.get(hotelNumber - 1).getRooms(1)) {
                 if (room.getState(date) != 1) {
                     System.out.println(count + ": " + room.getRoomID());
                     count++;
                 }
             }
             blank();
+
+            blank();
+            System.out.println("Available Deluxe Rooms in " + hotelName + " on Day " + date + ":");
+            blank();
+            for (Room room : hotels.get(hotelNumber - 1).getRooms(2)) {
+                if (room.getState(date) != 1) {
+                    System.out.println(count + ": " + room.getRoomID());
+                    count++;
+                }
+            }
+            blank();
+
+            blank();
+            System.out.println("Available Executive Rooms in " + hotelName + " on Day " + date + ":");
+            blank();
+            for (Room room : hotels.get(hotelNumber - 1).getRooms(3)) {
+                if (room.getState(date) != 1) {
+                    System.out.println(count + ": " + room.getRoomID());
+                    count++;
+                }
+            }
+            blank();
+
         // FOR CHECK OUT
         } else if (check == 2) {
             blank();
-            System.out.println("Booked Rooms in " + hotelName + " on Day " + date + ":");
+            System.out.println("Booked Standard Rooms in " + hotelName + " on Day " + date + ":");
             blank();
-            for (Room room : hotels.get(hotelNumber - 1).getRooms()) {
+            for (Room room : hotels.get(hotelNumber - 1).getRooms(1)) {
                 if (room.getState(date) != 2) {
                     System.out.println(count + ": " + room.getRoomID());
                     count++;
                 }
             }
             blank();
+
+            blank();
+            System.out.println("Booked Deluxe Rooms in " + hotelName + " on Day " + date + ":");
+            blank();
+            for (Room room : hotels.get(hotelNumber - 1).getRooms(2)) {
+                if (room.getState(date) != 2) {
+                    System.out.println(count + ": " + room.getRoomID());
+                    count++;
+                }
+            }
+            blank();
+
+            blank();
+            System.out.println("Booked Executive Rooms in " + hotelName + " on Day " + date + ":");
+            blank();
+            for (Room room : hotels.get(hotelNumber - 1).getRooms(3)) {
+                if (room.getState(date) != 2) {
+                    System.out.println(count + ": " + room.getRoomID());
+                    count++;
+                }
+            }
+            blank();
+
         } 
         
     }
@@ -380,10 +510,10 @@ public class HRSys {
                 else if (choice2 == 2){
                     int room = displayAllRooms(hotelNumber, 1);
 
-                    System.out.println("    Room ID: " + hotels.get(hotelNumber - 1).getRooms().get(room - 1).getRoomID());
-                    System.out.println("    Room Price: " + hotels.get(hotelNumber - 1).getBasePrice()); 
+                    System.out.println("    Room ID: " + hotels.get(hotelNumber - 1).getRooms(4).get(room - 1).getRoomID());
+                    System.out.println("    Room Price: " + hotels.get(hotelNumber - 1).getRooms(4).get(room - 1).getPrice()); 
                     System.out.println("    Room Status for the Days: "); 
-                    System.out.println(hotels.get(hotelNumber - 1).getRooms().get(room - 1).getAllAvail());
+                    System.out.println(hotels.get(hotelNumber - 1).getRooms(4).get(room - 1).getAllAvail());
                 }
                 else if (choice2 == 3){
                     //Information about Reservation
@@ -395,7 +525,11 @@ public class HRSys {
                         System.out.println("    Room Name: " + hotels.get(hotelNumber - 1).getReservations().get(reservation - 1).getRoom().getRoomID());
                         System.out.println("    Check-in Date: " + hotels.get(hotelNumber - 1).getReservations().get(reservation - 1).getCheckInDate()); 
                         System.out.println("    Check-out Date:  " + hotels.get(hotelNumber - 1).getReservations().get(reservation - 1).getCheckOutDate()); 
-                        System.out.println("    Price per Night: " + hotels.get(hotelNumber - 1).getReservations().get(reservation - 1).getCostPerNight()); 
+                        System.out.println("    Price per Night: "); 
+                        ArrayList<Double> costPerNight = hotels.get(hotelNumber - 1).getReservations().get(reservation - 1).getCostPerNight();
+                        for (int i = 0; i < costPerNight.size(); i++) {
+                            System.out.println("        Day " + (i + 1) + ": " + costPerNight.get(i));
+                        }
                         System.out.println("    Total Price: " + hotels.get(hotelNumber - 1).getReservations().get(reservation - 1).getTotalCost()); 
                     }
 
@@ -459,16 +593,33 @@ public class HRSys {
         int total = hotels.get(hotelNumber - 1).getNumRooms() + numRooms;
 
         while (total < 1 || total > 50) {
-            System.out.println("Invalid number of rooms. Please enter a number between 1 and 50: ");
+            System.out.println("Invalid number of rooms. Please enter a number between 1 and : " + (50 - hotels.get(hotelNumber - 1).getNumRooms()));
             numRooms = scan.nextInt();
             total = hotels.get(hotelNumber - 1).getNumRooms() + numRooms;
+        }
+
+        int choice;
+
+        blank();
+        System.out.println("Select the type of room to add:");
+        System.out.println("1: Standard Room");
+        System.out.println("2: Deluxe Room");
+        System.out.println("3: Executive Room");
+        blank();
+
+        System.out.println("Enter the number of your choice: ");
+        choice = scan.nextInt();
+
+        while (choice < 1 || choice > 3) {
+            System.out.println("Invalid choice. Please enter a number between 1 and 3: ");
+            choice = scan.nextInt();
         }
 
         if(confirmation()){
             System.out.println("Rooms added.");
             
             for (int i = 0; i < numRooms; i++) {
-                hotels.get(hotelNumber - 1).addRoom();
+                hotels.get(hotelNumber - 1).addRoom(choice);
             }
         }
         else{
@@ -486,7 +637,7 @@ public class HRSys {
         int count = 1;
 
         System.out.println("Available Rooms to be Removed:");
-        for(Room room : hotels.get(hotelNumber - 1).getRooms()){
+        for(Room room : hotels.get(hotelNumber - 1).getRooms(4)){
             if(!room.isBook()){
                 System.out.println(count + ": " + room.getRoomID());
                 count++;
@@ -580,6 +731,37 @@ public class HRSys {
         }
     }
 
+    public void updateDisc(int hotelNumber){
+        Scanner scan = new Scanner(System.in);
+
+        calendar();
+
+        System.out.println("Enter the date to update the discount: ");
+        int date = scan.nextInt();
+
+        while (date < 1 || date > 31) {
+            System.out.println("Invalid date. Please enter a date between 1 and 31: ");
+            date = scan.nextInt();
+        }
+
+        System.out.println("Enter the discount percentage [IN DECIMAL]: ");
+        double disc = scan.nextDouble();
+
+        while (disc < 0.5 || disc > 1.5) {
+            System.out.println("Invalid discount percentage. Please enter a value between 0.5 and 1.5: ");
+            disc = scan.nextDouble();
+        }
+
+        if(confirmation()){
+            System.out.println("Discount updated.");
+            hotels.get(hotelNumber - 1).updDisc(date, disc);
+
+        }
+        else{
+            System.out.println("Discount not updated.");
+        }
+    }
+
     /**
      * Main function to manage the hotel.
      */
@@ -604,7 +786,8 @@ public class HRSys {
             System.out.println("4: Update Base Price");
             System.out.println("5: Remove Reservation");
             System.out.println("6: Remove Hotel");
-            System.out.println("7: Exit");
+            System.out.println("7: Date Price Modifier");
+            System.out.println("8: Exit");
             blank();
 
             boolean validChoice = false;
@@ -613,7 +796,7 @@ public class HRSys {
                 int choice = scan.nextInt();
                 scan.nextLine();
 
-                if (choice >= 1 && choice <= 7) {
+                if (choice >= 1 && choice <= 8) {
                     validChoice = true;
                     switch (choice) {
                         case 1:
@@ -635,6 +818,9 @@ public class HRSys {
                             removeHotel(hotelNumber);
                             break;
                         case 7:
+                            updateDisc(hotelNumber);
+                            break;
+                        case 8:
                             break;
                     }
                 } else {
@@ -735,10 +921,56 @@ public class HRSys {
 
             Room room = hotels.get(hotelNumber - 1).crossRoom(roomName);
 
+            String code;
+
+            System.out.println("Enter a Discount Code [IF YOU HAVE]: ");
+            System.out.println("If you don't have a discount code, press enter.");
+            code = scan.nextLine();
+
+            int check = 0;
+
+            if (code.equals("I_WORK_HERE")) {
+                check = 1;
+                System.out.println("You get a 10% discount.");
+            }
+            else if (code.equals("STAY4_GET1")) {
+                if((checkOutDate - checkInDate) >= 5){
+                    check = 2;
+                    System.out.println("You get one day free.");
+                }
+                else{
+                    System.out.println("You need to stay for at least 5 days to get a free day.");
+                }
+            }
+            else if (code.equals("PAYDAY")) {
+                if ((15 >= checkInDate && 15 <= checkOutDate && !(checkOutDate == 15)) || (30 >= checkInDate && 30 <= checkOutDate && !(checkOutDate == 30))) {
+                    check = 3;
+                    System.out.println("You get a 7% Discount.");
+                }
+                else{
+                    System.out.println("You need to stay on the 15th or 30th to get a discount.");
+                }
+            }
+            else{
+                System.out.println("Invalid Discount Code.");
+            }
+
             if(confirmation()){
-                hotels.get(hotelNumber - 1).addReservation(guestName, checkInDate, checkOutDate, room);
+                if (check == 0) {
+                    hotels.get(hotelNumber - 1).addReservation(guestName, checkInDate, checkOutDate, room, 0);
+                }
+                else if (check == 1){
+                    hotels.get(hotelNumber - 1).addReservation(guestName, checkInDate, checkOutDate, room, 1);
+                }
+                else if (check == 2){
+                    hotels.get(hotelNumber - 1).addReservation(guestName, checkInDate, checkOutDate, room, 2);
+                }
+                else if (check == 3){
+                    hotels.get(hotelNumber - 1).addReservation(guestName, checkInDate, checkOutDate, room, 3);
+                }
+
                 room.bookRoom(checkInDate, checkOutDate);
-                System.out.println("Room booked.");
+                System.out.println("Room booked."); 
             }
             else{
                 System.out.println("Room not booked.");

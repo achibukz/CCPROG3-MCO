@@ -1,3 +1,4 @@
+
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -11,6 +12,10 @@ public class driver {
      * 
      * @param args The command line arguments.
      */
+    public static void main(String[] args){
+        driver d = new driver();
+        d.displayMenu();
+    }
         
 
     /**

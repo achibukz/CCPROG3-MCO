@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 
 /**
@@ -7,6 +8,9 @@ public class Hotel {
 
     private String name;
     private int numRooms;
+    private int stdCnt;
+    private int delCnt;
+    private int execCnt;
     private double basePrice = 1299.00;
     private ArrayList<Room> rooms = new ArrayList<Room>();
     private ArrayList<Reservation> reservations = new ArrayList<Reservation>();
@@ -17,10 +21,13 @@ public class Hotel {
      * @param name     the name of the hotel
      * @param numRooms the number of rooms in the hotel
      */
-    public Hotel(String name, int numRooms) {
+    public Hotel(String name, int stdCnt, int delCnt, int execCnt) {
         this.name = name;
-        this.numRooms = numRooms;
-        createRooms();
+        this.stdCnt = stdCnt;
+        this.delCnt = delCnt;
+        this.execCnt = execCnt;
+        this.numRooms = stdCnt + delCnt + execCnt;
+        createRooms(stdCnt, delCnt, execCnt);
     }
 
     /**
@@ -48,27 +55,62 @@ public class Hotel {
      */
     public void updBasePrice(double basePrice) {
         this.basePrice = basePrice;
+
+        for (Room room : rooms) {
+            if (!(room instanceof deluxeRm) && !(room instanceof execRm)) {
+                room.updPrice(basePrice);
+            } else if (room instanceof deluxeRm) {
+                room.updPrice(basePrice * 1.2);
+            } else if (room instanceof execRm) {
+                room.updPrice(basePrice * 1.35);
+            }
+        }
+
     }
 
     /**
      * Creates the rooms in the hotel.
      */
-    public void createRooms() {
-        for (int i = 1; i <= numRooms; i++) {
-            String roomID = String.format("%03d", i);
-            Room room = new Room(roomID);
+    public void createRooms(int stdCnt, int delCnt, int execCnt) {
+
+        int cnt = 0;
+
+        for (int i = 1; i <= stdCnt; i++) {
+            String roomID = String.format("%03d", ++cnt); // Increment cnt here for clarity
+            Room room = new Room(roomID, basePrice);
             rooms.add(room);
         }
+        
+        for (int i = 1; i <= delCnt; i++) {
+            String roomID = String.format("%03d", ++cnt); // Ensure cnt is incremented before use
+            deluxeRm room = new deluxeRm(roomID, basePrice); // Correct class name with proper casing
+            rooms.add(room);
+        }
+    
+        for (int i = 1; i <= execCnt; i++) {
+            String roomID = String.format("%03d", ++cnt); // Increment cnt before use
+            execRm room = new execRm(roomID, basePrice); // Correct class name with proper casing
+            rooms.add(room);
+        }
+
     }
 
     /**
      * Adds a room to the hotel.
      */
-    public void addRoom() {
+    public void addRoom(int choice) {
         numRooms++;
         String roomID = String.format("%03d", numRooms);
-        Room room = new Room(roomID);
-        rooms.add(room);
+        if (choice == 1){
+            Room room = new Room(roomID, basePrice);
+            rooms.add(room);
+        } else if (choice == 2){
+            deluxeRm room = new deluxeRm(roomID, basePrice);
+            rooms.add(room);
+        } else if (choice == 3){
+            execRm room = new execRm(roomID, basePrice);
+            rooms.add(room);
+        }
     }
 
     /**
@@ -140,9 +182,9 @@ public class Hotel {
      * @param checkOutDate  the check-out date
      * @param room          the room for the reservation
      */
-    public void addReservation(String guestName, int checkInDate, int checkOutDate, Room room) {
-        double costPerNight = basePrice;
-        Reservation res = new Reservation(guestName, checkInDate, checkOutDate, costPerNight, room);
+    public void addReservation(String guestName, int checkInDate, int checkOutDate, Room room, int check) {
+        Reservation res = new Reservation(guestName, checkInDate, checkOutDate, room);
+        res.manipulatePrice(check);
         reservations.add(res);
     }
 
@@ -191,8 +233,35 @@ public class Hotel {
      *
      * @return rooms - the list of rooms in the hotel
      */
-    public ArrayList<Room> getRooms() {
-        return rooms;
+    public ArrayList<Room> getRooms(int i) {
+        if (i == 1){
+            ArrayList<Room> stdRooms = new ArrayList<Room>();
+            for (Room room : rooms) {
+                if (!(room instanceof deluxeRm) && !(room instanceof execRm)) {
+                    stdRooms.add(room);
+                }
+            }
+            return stdRooms;
+        } else if (i == 2){
+            ArrayList<Room> delRooms = new ArrayList<Room>();
+            for (Room room : rooms) {
+                if (room instanceof deluxeRm) {
+                    delRooms.add(room);
+                }
+            }
+            return delRooms;
+        } else if (i == 3){
+            ArrayList<Room> execRooms = new ArrayList<Room>();
+            for (Room room : rooms) {
+                if (room instanceof execRm) {
+                    execRooms.add(room);
+                }
+            }
+            return execRooms;
+        }
+        else{
+            return rooms;
+        }
     }
 
     /**
@@ -290,5 +359,11 @@ public class Hotel {
         }
 
         return check;
+    }
+
+    public void updDisc(int date, double discount){
+        for (Room room : rooms) {
+            room.setDisc(date, discount);
+        }
     }
 }
