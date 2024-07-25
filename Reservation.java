@@ -113,7 +113,7 @@ public class Reservation {
             this.totalCost = totalCost - costPerNight.get(0);
         }
         else if(check == 3){
-            this.totalCost = totalCost * 0.92;
+            this.totalCost = totalCost * 0.93;
         }
     }
 

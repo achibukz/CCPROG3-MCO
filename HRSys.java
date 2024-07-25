@@ -72,7 +72,6 @@ public class HRSys {
     public void createHotel(){
         Scanner scan = new Scanner(System.in);
         String name;
-        int numRooms;
         int stdCnt;
         int delCnt;
         int execCnt;
@@ -681,7 +680,7 @@ public class HRSys {
         System.out.println("Enter the new base price of the hotel: ");
         basePrice = scan.nextDouble();
 
-        while (basePrice <= 100.00) {
+        while (basePrice < 100.00) {
             System.out.println("Invalid base price. Please enter a value greater than or equal to 100: ");
             basePrice = scan.nextDouble();
         }
@@ -733,6 +732,11 @@ public class HRSys {
 
     public void updateDisc(int hotelNumber){
         Scanner scan = new Scanner(System.in);
+
+        if (hotels.get(hotelNumber - 1).estEarn() != 0) {
+            System.out.println("Cannot update discount. There are reservations in the hotel.");
+            return;
+        }
 
         calendar();
 
@@ -952,7 +956,7 @@ public class HRSys {
                 }
             }
             else{
-                System.out.println("Invalid Discount Code.");
+                System.out.println("Invalid/No Discount Code.");
             }
 
             if(confirmation()){
