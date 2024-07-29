@@ -4,6 +4,9 @@ import javax.swing.event.ChangeListener;
 import java.awt.Color;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import javax.swing.JLabel;
+import java.awt.Font;
+
 
 
 public class createGUI extends JFrame {
@@ -19,11 +22,11 @@ public class createGUI extends JFrame {
 
 
     public createGUI(){
-        setTitle("Hotel Reservation System");
+        setTitle("Hotel Reservation System - Create Hotel");
         setSize(1280,720);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new GridLayout(1,1, 10, 10));
-
+        //setLayout(new GridLayout(1,1, 10, 10));
+        setLayout(new BorderLayout());
         creHotelBut = new JButton("Create a hotel");
         creHotelBut.setPreferredSize(new Dimension(50, 50));
         nextWindowBut = new JButton("Next Window");
@@ -40,13 +43,11 @@ public class createGUI extends JFrame {
 
         JPanel butPanel = new JPanel();
         butPanel.setLayout(new GridLayout(1,2, 50, 50));
-        butPanel.setBackground(Color.WHITE);
         butPanel.add(creHotelBut);
         butPanel.add(nextWindowBut);
 
 
         JPanel inputPanel = new JPanel(new GridLayout(7,2));
-        inputPanel.setBackground(Color.WHITE);
         inputPanel.add(new JLabel("Hotel Name:"));
         inputPanel.add(hotelNameField);
         inputPanel.add(new JLabel("Standard Rooms:"));
@@ -98,13 +99,29 @@ public class createGUI extends JFrame {
         butPanel.setMaximumSize(new Dimension(10, 10));
         outputArea.setPreferredSize(new Dimension(600, 100));
 
-        CenterPanel.setLayout(new BorderLayout());
+        CenterPanel.setLayout(new BorderLayout(50,50));
         CenterPanel.add(inputPanel, BorderLayout.NORTH);
         CenterPanel.add(butPanel, BorderLayout.CENTER);
         CenterPanel.add(new JScrollPane(outputArea), BorderLayout.SOUTH);
         
+        JPanel NorthPanel = new JPanel();
+        NorthPanel.setLayout(new GridLayout(1,1));
+        JLabel title = new JLabel("   Create a Hotel");
+        title.setFont(new Font("Arial", Font.PLAIN, 32));
+        NorthPanel.add(title);
+        NorthPanel.setPreferredSize(new Dimension(10, 100));
+
+        JPanel WestPanel = new JPanel();
+        WestPanel.setPreferredSize(new Dimension(100, 100));
+        WestPanel.setLayout(new GridLayout(1,1));
+        JPanel EastPanel = new JPanel();
+        EastPanel.setPreferredSize(new Dimension(100, 100));
+        EastPanel.setLayout(new GridLayout(1,1));
         
-        add(CenterPanel);
+        add(NorthPanel, BorderLayout.NORTH);
+        add(WestPanel, BorderLayout.WEST);
+        add(EastPanel, BorderLayout.EAST);
+        add(CenterPanel, BorderLayout.CENTER);
     }
 
     public JButton getCreHotelBut(){

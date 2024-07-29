@@ -45,7 +45,7 @@ public class creCont {
                 else{
                     view.setVisible(false);
                     HRGui gui = new HRGui();
-                    hrCont cont = new hrCont(model, gui);
+                    hrCont cont = new hrCont(model, gui, view);
                     cont.displayView();
                 }
             }
