@@ -69,53 +69,49 @@ public class HRSys {
     /**
      * main function to create a new instance of a Hotel.
      */
-    public void createHotel(){
+    public void createHotel(String name, int stdCnt, int delCnt, int execCnt){
         Scanner scan = new Scanner(System.in);
-        String name;
-        int stdCnt;
-        int delCnt;
-        int execCnt;
 
-        System.out.println("Enter the name of the hotel: ");
-        name = scan.nextLine();
+        // System.out.println("Enter the name of the hotel: ");
+        // name = scan.nextLine();
         
-        boolean nameExists = checkIfNameExists(name);
-        while (nameExists) {
-            System.out.println("Hotel name already exists. Please enter a different name: ");
-            name = scan.nextLine();
-            nameExists = checkIfNameExists(name);
-        }
+        // boolean nameExists = checkIfNameExists(name);
+        // while (nameExists) {
+        //     System.out.println("Hotel name already exists. Please enter a different name: ");
+        //     name = scan.nextLine();
+        //     nameExists = checkIfNameExists(name);
+        // }
 
         
-        System.out.println("Enter the number of standard rooms: ");
-        stdCnt = scan.nextInt();
+        // System.out.println("Enter the number of standard rooms: ");
+        // stdCnt = scan.nextInt();
 
-        while (stdCnt < 1 || stdCnt > 48) {
-            System.out.println("Invalid number of standard rooms. Please enter a number between 1 and 48: ");
-            stdCnt = scan.nextInt();
-        }
+        // while (stdCnt < 1 || stdCnt > 48) {
+        //     System.out.println("Invalid number of standard rooms. Please enter a number between 1 and 48: ");
+        //     stdCnt = scan.nextInt();
+        // }
 
-        System.out.println("Enter the number of deluxe rooms: ");
-        delCnt = scan.nextInt();
+        // System.out.println("Enter the number of deluxe rooms: ");
+        // delCnt = scan.nextInt();
 
-        while (delCnt < 1 || delCnt > 49 || stdCnt + delCnt > 49) {
-            System.out.println("Invalid number of deluxe rooms. Please enter a number between 1 and " + (49 - stdCnt) + ": ");
-            delCnt = scan.nextInt();
-        }
+        // while (delCnt < 1 || delCnt > 49 || stdCnt + delCnt > 49) {
+        //     System.out.println("Invalid number of deluxe rooms. Please enter a number between 1 and " + (49 - stdCnt) + ": ");
+        //     delCnt = scan.nextInt();
+        // }
 
-        System.out.println("Enter the number of executive rooms: ");
-        execCnt = scan.nextInt();
+        // System.out.println("Enter the number of executive rooms: ");
+        // execCnt = scan.nextInt();
 
-        while (execCnt < 1 || execCnt > 50 || stdCnt + delCnt + execCnt > 50) {
-            System.out.println("Invalid number of executive rooms. Please enter a number between 1 and " + (50 - stdCnt - delCnt) + ": ");
-            execCnt = scan.nextInt();
-        }
+        // while (execCnt < 1 || execCnt > 50 || stdCnt + delCnt + execCnt > 50) {
+        //     System.out.println("Invalid number of executive rooms. Please enter a number between 1 and " + (50 - stdCnt - delCnt) + ": ");
+        //     execCnt = scan.nextInt();
+        // }
         
         Hotel hotel = new Hotel(name, stdCnt, delCnt, execCnt);
         hotels.add(hotel);
 
-        blank();
-        pressAnyKeyToContinue();
+        // blank();
+        // pressAnyKeyToContinue();
 
     }
 
@@ -796,7 +792,7 @@ public class HRSys {
 
             boolean validChoice = false;
             while (!validChoice) {
-                System.out.println("Enter the numbere of your choice: ");
+                System.out.println("Enter the number of your choice: ");
                 int choice = scan.nextInt();
                 scan.nextLine();
 
@@ -985,5 +981,9 @@ public class HRSys {
 
         blank();
         pressAnyKeyToContinue();
+    }
+
+    public int getHotelSize(){
+        return hotels.size();
     }
 }

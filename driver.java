@@ -13,8 +13,13 @@ public class driver {
      * @param args The command line arguments.
      */
     public static void main(String[] args){
-        driver d = new driver();
-        d.displayMenu();
+
+        HRSys model = new HRSys();
+        createGUI view = new createGUI();
+        creCont c = new creCont(model, view);
+
+        c.displayView();
+
     }
         
 
