@@ -1,18 +1,22 @@
+package Views;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import javafx.embed.swing.JFXPanel;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
 
 
-public class HRGui extends JFrame {
+public class updHotName extends JFrame {
     private JButton GoBack;
     private JTextArea outputArea;
 
-    public HRGui(){
-        setTitle("Hotel Reservation System - Main");
-        setSize(1280,720);
+    public updHotName(){
+        setTitle("Hotel Reservation System - Update Hotel Name");
+        setSize(600,500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
@@ -20,28 +24,37 @@ public class HRGui extends JFrame {
         JPanel NorthPanel = new JPanel();
 
         NorthPanel.setLayout(new GridLayout(1,1));
-        JLabel title = new JLabel("   Hotel Reservation System");
+        JLabel title = new JLabel("   Update Hotel Name");
         title.setFont(new Font("Arial", Font.PLAIN, 32));
         NorthPanel.add(title);
         NorthPanel.setPreferredSize(new Dimension(5, 50));
         
         JPanel CenterPanel = new JPanel();
-        CenterPanel.setLayout(new GridLayout(4,1));
+        CenterPanel.setLayout(new GridLayout(6,1, 10, 10));
+        CenterPanel.add(new JPanel());
 
-        JPanel ViewHotel = new JPanel();
-        ViewHotel.add(new JLabel("View Hotel"));
-        JPanel ManageHotel = new JPanel();
-        ManageHotel.add(new JLabel("Manage Hotel"));
-        JPanel BookRoom = new JPanel();
-        BookRoom.add(new JLabel("Book Room"));
+        
+        CenterPanel.add(new JPanel());
+        JPanel Middle = new JPanel();
+        Middle.setLayout(new GridLayout(1,9));
+        Middle.add(new JPanel());
+        Middle.add(new JPanel());
+        Middle.add(new JPanel());
+        Middle.add(new JPanel());
+        Middle.add(new JPanel());
 
-        outputArea = new JTextArea();
-        outputArea.setEditable(false);
+        JPanel Bottom = new JPanel();
+        Bottom.setLayout(new GridLayout(1,7));
+        Bottom.add(new JPanel());
+        Bottom.add(new JPanel());
+        Bottom.add(new JPanel());
+        Bottom.add(new JPanel());
+        Bottom.add(new JPanel());
+        Bottom.add(new JPanel());
+        
 
-        CenterPanel.add(ViewHotel);
-        CenterPanel.add(ManageHotel);
-        CenterPanel.add(BookRoom);
-        CenterPanel.add(outputArea);
+        CenterPanel.add(Bottom);
+        CenterPanel.add(new JPanel());
 
         JPanel EastPanel = new JPanel();
         EastPanel.setLayout(new GridLayout(7,1,10,10));

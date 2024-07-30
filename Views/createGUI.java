@@ -1,13 +1,9 @@
+package Views;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.Color;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import javax.swing.JLabel;
-import java.awt.Font;
-
-
 
 public class createGUI extends JFrame {
     private JButton creHotelBut;
@@ -20,18 +16,16 @@ public class createGUI extends JFrame {
     private JSlider execRoomSlider;
     private JLabel totalRoomsLabel;
 
-
-    public createGUI(){
+    public createGUI() {
         setTitle("Hotel Reservation System - Create Hotel");
-        setSize(1280,720);
+        setSize(1280, 720);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //setLayout(new GridLayout(1,1, 10, 10));
         setLayout(new BorderLayout());
+
         creHotelBut = new JButton("Create a hotel");
         creHotelBut.setPreferredSize(new Dimension(50, 50));
         nextWindowBut = new JButton("Next Window");
         nextWindowBut.setPreferredSize(new Dimension(50, 50));
-
 
         hotelNameField = new JTextField();
         stdRoomSlider = new JSlider(0, 50, 0);
@@ -42,12 +36,15 @@ public class createGUI extends JFrame {
         JPanel CenterPanel = new JPanel();
 
         JPanel butPanel = new JPanel();
-        butPanel.setLayout(new GridLayout(1,2, 50, 50));
+        butPanel.setLayout(new GridLayout(1, 8, 50, 50));
+        butPanel.add(new JLabel(""));
         butPanel.add(creHotelBut);
+        butPanel.add(new JLabel(""));
+        butPanel.add(new JLabel(""));
         butPanel.add(nextWindowBut);
+        butPanel.add(new JLabel(""));
 
-
-        JPanel inputPanel = new JPanel(new GridLayout(7,2));
+        JPanel inputPanel = new JPanel(new GridLayout(7, 2));
         inputPanel.add(new JLabel("Hotel Name:"));
         inputPanel.add(hotelNameField);
         inputPanel.add(new JLabel("Standard Rooms:"));
@@ -59,10 +56,13 @@ public class createGUI extends JFrame {
         inputPanel.add(totalRoomsLabel);
         inputPanel.add(new JLabel(""));
 
-        // CenterPanel.setBackground(Color.ORANGE);
-
         outputArea = new JTextArea();
         outputArea.setEditable(false);
+        outputArea.setLineWrap(true);
+        outputArea.setWrapStyleWord(true);
+
+        JScrollPane outputScrollPane = new JScrollPane(outputArea);
+        outputScrollPane.setPreferredSize(new Dimension(600, 100));
 
         stdRoomSlider.setMajorTickSpacing(10);
         stdRoomSlider.setMinorTickSpacing(1);
@@ -83,8 +83,8 @@ public class createGUI extends JFrame {
             @Override
             public void stateChanged(ChangeEvent e) {
                 int totalRooms = stdRoomSlider.getValue() + delRoomSlider.getValue() + execRoomSlider.getValue();
-                if (totalRooms > 50){
-                    JSlider source = (JSlider)e.getSource();
+                if (totalRooms > 50) {
+                    JSlider source = (JSlider) e.getSource();
                     source.setValue(source.getValue() - (totalRooms - 50));
                     totalRooms = 50;
                 }
@@ -97,15 +97,14 @@ public class createGUI extends JFrame {
         execRoomSlider.addChangeListener(listener);
 
         butPanel.setMaximumSize(new Dimension(10, 10));
-        outputArea.setPreferredSize(new Dimension(600, 100));
 
-        CenterPanel.setLayout(new BorderLayout(50,50));
+        CenterPanel.setLayout(new BorderLayout(50, 50));
         CenterPanel.add(inputPanel, BorderLayout.NORTH);
         CenterPanel.add(butPanel, BorderLayout.CENTER);
-        CenterPanel.add(new JScrollPane(outputArea), BorderLayout.SOUTH);
-        
+        CenterPanel.add(outputScrollPane, BorderLayout.SOUTH);
+
         JPanel NorthPanel = new JPanel();
-        NorthPanel.setLayout(new GridLayout(1,1));
+        NorthPanel.setLayout(new GridLayout(1, 1));
         JLabel title = new JLabel("   Create a Hotel");
         title.setFont(new Font("Arial", Font.PLAIN, 32));
         NorthPanel.add(title);
@@ -113,51 +112,51 @@ public class createGUI extends JFrame {
 
         JPanel WestPanel = new JPanel();
         WestPanel.setPreferredSize(new Dimension(100, 100));
-        WestPanel.setLayout(new GridLayout(1,1));
+        WestPanel.setLayout(new GridLayout(1, 1));
         JPanel EastPanel = new JPanel();
         EastPanel.setPreferredSize(new Dimension(100, 100));
-        EastPanel.setLayout(new GridLayout(1,1));
-        
+        EastPanel.setLayout(new GridLayout(1, 1));
+
         add(NorthPanel, BorderLayout.NORTH);
         add(WestPanel, BorderLayout.WEST);
         add(EastPanel, BorderLayout.EAST);
         add(CenterPanel, BorderLayout.CENTER);
     }
 
-    public JButton getCreHotelBut(){
+    public JButton getCreHotelBut() {
         return creHotelBut;
     }
 
-    public JButton getNextWindowBut(){
+    public JButton getNextWindowBut() {
         return nextWindowBut;
     }
 
-    public String getHotelName(){
+    public String getHotelName() {
         return hotelNameField.getText();
     }
 
-    public int getStdRooms(){
+    public int getStdRooms() {
         return stdRoomSlider.getValue();
     }
 
-    public int getDelRooms(){
+    public int getDelRooms() {
         return delRoomSlider.getValue();
     }
 
-    public int getExecRooms(){
+    public int getExecRooms() {
         return execRoomSlider.getValue();
     }
 
-    public void appendOutput(String text){
+    public void appendOutput(String text) {
         outputArea.append(text + "\n");
+        outputArea.setCaretPosition(outputArea.getDocument().getLength());
     }
 
-    public void addCHL(ActionListener listener){
+    public void addCHL(ActionListener listener) {
         creHotelBut.addActionListener(listener);
     }
 
-    public void nextWindow(ActionListener listener){
+    public void nextWindow(ActionListener listener) {
         nextWindowBut.addActionListener(listener);
     }
-
 }

@@ -1,15 +1,22 @@
+package Controllers;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class hrCont {
-    private HRSys model;
-    private HRGui view;
-    private createGUI gui;
+import Models.HRSys;
+import Views.bookGui;
+import Views.HRGui;
 
-    public hrCont(HRSys model, HRGui view, createGUI gui){
+public class bookCont {
+    private HRSys model;
+    private bookGui view;
+    private HRGui gui;
+    private String name;
+
+    public bookCont(HRSys model, bookGui view, HRGui gui, String name){
         this.model = model;
         this.view = view;
         this.gui = gui;
+        this.name = name;
 
         this.view.addGoBackListener(new ActionListener() {
             @Override

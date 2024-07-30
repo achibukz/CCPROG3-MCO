@@ -1,3 +1,4 @@
+package Models;
 
 /**
  * The Room class represents a room in a hotel.

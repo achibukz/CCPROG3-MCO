@@ -1,3 +1,4 @@
+package Models;
 
 import java.util.Scanner;
 import java.io.IOException;
@@ -985,5 +986,14 @@ public class HRSys {
 
     public int getHotelSize(){
         return hotels.size();
+    }
+
+    public Hotel getHotel(String name){
+        for(Hotel hotel : hotels){
+            if(hotel.getName().equals(name)){
+                return hotel;
+            }
+        }
+        return null;
     }
 }

@@ -1,3 +1,4 @@
+package Models;
 
 public class deluxeRm extends Room{
     public deluxeRm(String roomID, double basePrice){

@@ -1,3 +1,4 @@
+package Models;
 
 public class execRm extends Room{
     public execRm(String roomID, double basePrice){

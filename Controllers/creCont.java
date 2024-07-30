@@ -1,5 +1,10 @@
+package Controllers;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import Models.HRSys;
+import Views.HRGui;
+import Views.createGUI;
 
 public class creCont {
     private HRSys model;
@@ -39,13 +44,15 @@ public class creCont {
         this.view.nextWindow(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String name = view.getHotelName();
+
                 if (model.getHotelSize() == 0){
                     view.appendOutput("Please create a hotel first.");
                 }
                 else{
                     view.setVisible(false);
-                    HRGui gui = new HRGui();
-                    hrCont cont = new hrCont(model, gui, view);
+                    HRGui gui = new HRGui(name);
+                    hrCont cont = new hrCont(model, gui, view, name);
                     cont.displayView();
                 }
             }
