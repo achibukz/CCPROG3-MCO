@@ -93,11 +93,23 @@ public class manGui extends JFrame {
         WestPanel.setLayout(new GridLayout(7,1,10,10));
         WestPanel.setPreferredSize(new Dimension(50, 10));
 
+        JPanel SouthPanel = new JPanel();  
+        SouthPanel.setLayout(new GridLayout(1,1));
+        outputArea = new JTextArea();
+        outputArea.setEditable(false);
+        outputArea.setLineWrap(true);
+        outputArea.setWrapStyleWord(true);
+
+        JScrollPane outputScrollPane = new JScrollPane(outputArea);
+        outputScrollPane.setPreferredSize(new Dimension(600, 100));
+        SouthPanel.add(outputScrollPane);
+
 
         add(NorthPanel, BorderLayout.NORTH);
         add(CenterPanel, BorderLayout.CENTER);
         add(WestPanel, BorderLayout.WEST);
         add(EastPanel, BorderLayout.EAST);
+        add(SouthPanel, BorderLayout.SOUTH);
     }
 
     public void addGoBackListener(ActionListener listenForGoBack){
@@ -130,6 +142,11 @@ public class manGui extends JFrame {
 
     public void addDataPriceListener(ActionListener listenForDataPrice){
         dataPriceBut.addActionListener(listenForDataPrice);
+    }
+
+    public void appendOutput(String text) {
+        outputArea.append(text + "\n");
+        outputArea.setCaretPosition(outputArea.getDocument().getLength());
     }
 
 

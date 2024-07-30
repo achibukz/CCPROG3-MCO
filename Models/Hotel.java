@@ -367,4 +367,64 @@ public class Hotel {
             room.setDisc(date, discount);
         }
     }
+
+    public ArrayList<Room> getBookedExeRooms(int date, int check){
+        ArrayList<Room> bookedRooms = new ArrayList<Room>();
+        for (Room room : rooms) {
+            if (room.getState(date) == check && room instanceof execRm) {
+                bookedRooms.add(room);
+            }
+        }
+        return bookedRooms;
+    }
+
+    public ArrayList<Room> getBookedDelRooms(int date, int check){
+        ArrayList<Room> bookedRooms = new ArrayList<Room>();
+        for (Room room : rooms) {
+            if (room.getState(date) == check && room instanceof deluxeRm) {
+                bookedRooms.add(room);
+            }
+        }
+        return bookedRooms;
+    }
+
+    public ArrayList<Room> getBookedStdRooms(int date, int check){
+        ArrayList<Room> bookedRooms = new ArrayList<Room>();
+        for (Room room : rooms) {
+            if (room.getState(date) == check && !(room instanceof deluxeRm) && !(room instanceof execRm)) {
+                bookedRooms.add(room);
+            }
+        }
+        return bookedRooms;
+    }
+
+    public ArrayList<Room> getAvailExeRooms(int date){
+        ArrayList<Room> availRooms = new ArrayList<Room>();
+        for (Room room : rooms) {
+            if (room.getState(date) == 1 && room instanceof execRm) {
+                availRooms.add(room);
+            }
+        }
+        return availRooms;
+    }
+
+    public ArrayList<Room> getAvailDelRooms(int date){
+        ArrayList<Room> availRooms = new ArrayList<Room>();
+        for (Room room : rooms) {
+            if (room.getState(date) == 1 && room instanceof deluxeRm) {
+                availRooms.add(room);
+            }
+        }
+        return availRooms;
+    }
+
+    public ArrayList<Room> getAvailStdRooms(int date){
+        ArrayList<Room> availRooms = new ArrayList<Room>();
+        for (Room room : rooms) {
+            if (room.getState(date) == 1 && !(room instanceof deluxeRm) && !(room instanceof execRm)) {
+                availRooms.add(room);
+            }
+        }
+        return availRooms;
+    }
 }

@@ -76,5 +76,9 @@ public class hrCont {
         view.setVisible(true);
     }
 
+    public void setName(String name){
+        this.name = name;
+    }
+
 }
 

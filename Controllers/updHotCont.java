@@ -25,6 +25,31 @@ public class updHotCont {
                 gui.setVisible(true); // Show the previous createGUI instance
             }
         });
+
+        this.view.addUpdateNameListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String newName = view.getUpdateName();
+                if (newName.equals("")){
+                    view.appendOutput("Please enter a new hotel name.");
+                }
+                else if(model.checkIfNameExists(newName)){
+                    view.appendOutput("Hotel name already exists. Please enter a different name.");
+                }
+                else{
+                    boolean confirmed = confirm.showConfirmationDialog(view, "Confirm", "Are you sure you want to update the hotel name?");
+                    
+                    if(confirmed){
+                        model.updHotelName(name, newName);
+                        view.appendOutput("Hotel name updated to: " + newName);
+                    }
+                    else{
+                        view.appendOutput("Hotel name not updated.");
+                    }
+
+                }
+            }
+        });
     }
 
     public void displayView(){

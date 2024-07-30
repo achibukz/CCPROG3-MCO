@@ -11,6 +11,7 @@ public class addRoomCont {
     private addRoom view;
     private manGui gui;
     private String name;
+    private int type;
 
     public addRoomCont(HRSys model, addRoom view, manGui gui, String name){
         this.model = model;
@@ -25,6 +26,36 @@ public class addRoomCont {
                 gui.setVisible(true); // Show the previous createGUI instance
             }
         });
+
+        this.view.addStdListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                type = 1;
+            }
+        });
+
+        this.view.addDelListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                type = 2;
+            }
+        });
+
+        this.view.addExeListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                type = 3;
+            }
+        });
+
+        this.view.addStdButListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                model.addRoom(name, type, Integer.parseInt(view.getStdRooms()));
+            }
+        });
+
+
     }
 
     public void displayView(){

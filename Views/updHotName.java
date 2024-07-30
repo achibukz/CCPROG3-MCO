@@ -12,6 +12,8 @@ import java.awt.event.ActionListener;
 
 public class updHotName extends JFrame {
     private JButton GoBack;
+    private JTextField updateName;
+    private JButton updateNameBut;
     private JTextArea outputArea;
 
     public updHotName(){
@@ -29,6 +31,18 @@ public class updHotName extends JFrame {
         NorthPanel.add(title);
         NorthPanel.setPreferredSize(new Dimension(5, 50));
         
+        updateName = new JTextField();
+        updateNameBut = new JButton("Update Name");
+        outputArea = new JTextArea();
+        outputArea.setEditable(false);
+        outputArea.setLineWrap(true);
+        outputArea.setWrapStyleWord(true);
+
+        JScrollPane outputScrollPane = new JScrollPane(outputArea);
+        outputScrollPane.setPreferredSize(new Dimension(600, 100));
+
+
+
         JPanel CenterPanel = new JPanel();
         CenterPanel.setLayout(new GridLayout(6,1, 10, 10));
         CenterPanel.add(new JPanel());
@@ -36,23 +50,16 @@ public class updHotName extends JFrame {
         
         CenterPanel.add(new JPanel());
         JPanel Middle = new JPanel();
-        Middle.setLayout(new GridLayout(1,9));
-        Middle.add(new JPanel());
-        Middle.add(new JPanel());
-        Middle.add(new JPanel());
-        Middle.add(new JPanel());
-        Middle.add(new JPanel());
+        Middle.setLayout(new GridLayout(1,2));
+        Middle.add(new JLabel("New Hotel Name:"));
+        Middle.add(updateName);
+        Middle.add(updateNameBut);
 
         JPanel Bottom = new JPanel();
         Bottom.setLayout(new GridLayout(1,7));
-        Bottom.add(new JPanel());
-        Bottom.add(new JPanel());
-        Bottom.add(new JPanel());
-        Bottom.add(new JPanel());
-        Bottom.add(new JPanel());
-        Bottom.add(new JPanel());
-        
+        Bottom.add(outputScrollPane);        
 
+        CenterPanel.add(Middle);
         CenterPanel.add(Bottom);
         CenterPanel.add(new JPanel());
 
@@ -78,6 +85,19 @@ public class updHotName extends JFrame {
 
     public void addGoBackListener(ActionListener listenForGoBack){
         GoBack.addActionListener(listenForGoBack);
+    }
+
+    public void appendOutput(String text) {
+        outputArea.append(text + "\n");
+        outputArea.setCaretPosition(outputArea.getDocument().getLength());
+    }
+
+    public void addUpdateNameListener(ActionListener listenForUpdateName){
+        updateNameBut.addActionListener(listenForUpdateName);
+    }
+
+    public String getUpdateName(){
+        return updateName.getText();
     }
 
 

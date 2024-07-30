@@ -25,6 +25,30 @@ public class updBasePriceCont {
                 gui.setVisible(true); // Show the previous createGUI instance
             }
         });
+
+        this.view.addConfirmListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean confirmed = confirm.showConfirmationDialog(view, "Confirm", "Are you sure?");
+                double price = view.getxField();
+
+                if (price < 100.00){
+                    view.appendOutput("Invalid price. Please enter a value greater than or equal to 100:");
+                    return;
+                }
+
+                if(confirmed){
+                    model.updBasePrice(name, price);
+                    view.appendOutput("Updated Base Price.");
+                }
+                else{
+                    view.appendOutput("Base Pricenot Updated.");
+                }
+
+            }
+        });
+
+
     }
 
     public void displayView(){
