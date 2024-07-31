@@ -20,16 +20,18 @@ public class manCont {
     private HRSys model;
     private manGui view;
     private HRGui gui;
-    private String name;
+    private Hotel name;
     private ArrayList<Hotel> hotels;
+    private mainController cont;
 
 
-    public manCont(HRSys model, manGui view, HRGui gui, String name){
+    public manCont(HRSys model, manGui view, HRGui gui, Hotel name, mainController cont){
         this.model = model;
         this.view = view;
         this.gui = gui;
         this.name = name;
         this.hotels = model.getHotels();
+        this.cont = cont;
 
         this.view.addGoBackListener(new ActionListener() {
             @Override
@@ -47,9 +49,8 @@ public class manCont {
                     return;
                 }
                 view.setVisible(false);
-                addRoom addRoomView = new addRoom();
-                addRoomCont addRoomCont = new addRoomCont(model, addRoomView, view, name);
-                addRoomCont.displayView();
+                addRoom addRoomView = cont.getAddRoomView();
+                addRoomView.setVisible(true);
             }
         });
 
@@ -61,9 +62,8 @@ public class manCont {
                     return;
                 }
                 view.setVisible(false);
-                remRoom remRoomView = new remRoom();
-                remRoomCont remRoomCont = new remRoomCont(model, remRoomView, view, name);
-                remRoomCont.displayView();
+                remRoom remRoomView = cont.getRemRoomView();
+                remRoomView.setVisible(true);
             }
         });
 
@@ -75,9 +75,8 @@ public class manCont {
                     return;
                 }
                 view.setVisible(false);
-                updHotName updHotNameView = new updHotName();
-                updHotCont updHotNameCont = new updHotCont(model, updHotNameView, view, name);
-                updHotNameCont.displayView();
+                updHotName updHotNameView = cont.getUpdHotNameView();
+                updHotNameView.setVisible(true);
             }
         });
 
@@ -94,9 +93,8 @@ public class manCont {
                 }
                 else{
                     view.setVisible(false);
-                    updBasePrice updBasePriceView = new updBasePrice();
-                    updBasePriceCont updBasePriceCont = new updBasePriceCont(model, updBasePriceView, view, name);
-                    updBasePriceCont.displayView();
+                    updBasePrice updBasePriceView = cont.getUpdBasePriceView();
+                    updBasePriceView.setVisible(true);
                 }
             }
         });
@@ -110,9 +108,8 @@ public class manCont {
                 }
                 else{
                     view.setVisible(false);
-                    remRes remResView = new remRes();
-                    remResCont remResCont = new remResCont(model, remResView, view, name);
-                    remResCont.displayView();
+                    remRes remResView = cont.getRemResView();
+                    remResView.setVisible(true);
                 }
                 
             }
@@ -125,10 +122,14 @@ public class manCont {
                     view.appendOutput("Hotel does not exist.");
                     return;
                 }
+                else if(model.getHotel(name).estEarn() != 0){
+                    view.appendOutput("Cannot remove hotel. Hotel has already earned money.");
+                    return;
+                }
+                
                 view.setVisible(false);
-                remHot remHotView = new remHot();
-                remHotCont remHotCont = new remHotCont(model, remHotView, view, name);
-                remHotCont.displayView();
+                remHot remHotView = cont.getRemHotView();
+                remHotView.setVisible(true);
             }
         });
 
@@ -144,9 +145,8 @@ public class manCont {
                 }
                 else{
                     view.setVisible(false);
-                    dataPrice dataPriceView = new dataPrice();
-                    dataPriceCont dataPriceCont = new dataPriceCont(model, dataPriceView, view, name);
-                    dataPriceCont.displayView();
+                    dataPrice dataPriceView = cont.getDataPriceView();
+                    dataPriceView.setVisible(true);
                 }
             }
         });
@@ -158,6 +158,10 @@ public class manCont {
 
     public void displayView(){
         view.setVisible(true);
+    }
+
+    public void setName(Hotel name) {
+        this.name = name;
     }
 
 }

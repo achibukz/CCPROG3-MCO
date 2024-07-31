@@ -1,27 +1,27 @@
 package Controllers;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import Models.Reservation;
 import java.util.ArrayList;
+
+import Models.Room;
 
 import Models.HRSys;
 import Views.manGui;
-import Views.remRes;
+import Views.remRoom;
 
-public class remResCont {
+public class remRoomCont {
     private HRSys model;
-    private remRes view;
+    private remRoom view;
     private manGui gui;
     private String name;
-    private ArrayList<Reservation> reservations;
+    private ArrayList<Room> rooms;
 
-    public remResCont(HRSys model, remRes view, manGui gui, String name){
+    public remRoomCont(HRSys model, remRoom view, manGui gui, String name){
         this.model = model;
         this.view = view;
         this.gui = gui;
         this.name = name;
-        this.reservations = model.getAllReservations(name);
+        this.rooms = model.getAllRooms(name);
         updateOutput();
 
         this.view.addGoBackListener(new ActionListener() {
@@ -36,26 +36,26 @@ public class remResCont {
             @Override
             public void actionPerformed(ActionEvent e) {
                 boolean confirmed = confirm.showConfirmationDialog(view, "Confirm", "Are you sure?");
-                String guestName = view.getxField();
-                boolean resFound = false;
+                String roomNum = view.getxField();
+                boolean roomFound = false;
         
-                for (Reservation res : reservations) {
-                    if (res.getGuestName().equals(guestName)) {
-                        resFound = true;
+                for (Room room : rooms) {
+                    if (room.getRoomID().equals(roomNum)) {
+                        roomFound = true;
                         break;
                     }
                 }
         
-                if (!resFound) {
-                    view.appendOutput("Invalid reservation name.");
+                if (!roomFound) {
+                    view.appendOutput("Invalid room ID.");
                     return;
                 }
         
                 if (confirmed) {
-                    model.removeReservation(name, guestName);
-                    view.appendOutput("Removed Reservation.");
+                    model.removeRoom(name, roomNum);
+                    view.appendOutput("Removed Room.");
                 } else {
-                    view.appendOutput("Reservation not Removed.");
+                    view.appendOutput("Room not Removed.");
                 }
             }
         });
@@ -66,8 +66,10 @@ public class remResCont {
     }
 
     public void updateOutput(){
-        for (Reservation res : reservations) {
-            view.appendOutput(res.getGuestName());
+        
+
+        for (Room room : rooms){
+            view.appendOutput(room.getRoomID());
         }
     }
 

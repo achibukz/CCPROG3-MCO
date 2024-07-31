@@ -9,6 +9,13 @@
             "name": "driver",
             "request": "launch",
             "mainClass": "driver",
+            "projectName": "CCPROG3-MCO-main_1ba62f9d"
+        },
+        {
+            "type": "java",
+            "name": "driver",
+            "request": "launch",
+            "mainClass": "driver",
             "projectName": "GIT MCO_d7e6f4a2"
         },
         {

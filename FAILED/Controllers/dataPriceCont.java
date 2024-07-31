@@ -2,26 +2,21 @@ package Controllers;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import Models.Reservation;
-import java.util.ArrayList;
-
 import Models.HRSys;
+import Views.dataPrice;
 import Views.manGui;
-import Views.remRes;
 
-public class remResCont {
+public class dataPriceCont {
     private HRSys model;
-    private remRes view;
+    private dataPrice view;
     private manGui gui;
     private String name;
-    private ArrayList<Reservation> reservations;
 
-    public remResCont(HRSys model, remRes view, manGui gui, String name){
+    public dataPriceCont(HRSys model, dataPrice view, manGui gui, String name){
         this.model = model;
         this.view = view;
         this.gui = gui;
         this.name = name;
-        this.reservations = model.getAllReservations(name);
         updateOutput();
 
         this.view.addGoBackListener(new ActionListener() {
@@ -36,27 +31,27 @@ public class remResCont {
             @Override
             public void actionPerformed(ActionEvent e) {
                 boolean confirmed = confirm.showConfirmationDialog(view, "Confirm", "Are you sure?");
-                String guestName = view.getxField();
-                boolean resFound = false;
-        
-                for (Reservation res : reservations) {
-                    if (res.getGuestName().equals(guestName)) {
-                        resFound = true;
-                        break;
-                    }
-                }
-        
-                if (!resFound) {
-                    view.appendOutput("Invalid reservation name.");
+                int date = view.getxField();
+                double disc = view.getyField();
+
+                if (date < 1 || date > 31){
+                    view.appendOutput("Invalid date.");
                     return;
                 }
-        
-                if (confirmed) {
-                    model.removeReservation(name, guestName);
-                    view.appendOutput("Removed Reservation.");
-                } else {
-                    view.appendOutput("Reservation not Removed.");
+
+                if (disc < 0.5 || disc > 1.5){
+                    view.appendOutput("Invalid price.");
+                    return;
                 }
+
+                if(confirmed){
+                    model.updateDisc(name, date, disc);
+                    view.appendOutput("Updated Discount.");
+                }
+                else{
+                    view.appendOutput("Discount not Updated.");
+                }
+
             }
         });
     }
@@ -66,8 +61,11 @@ public class remResCont {
     }
 
     public void updateOutput(){
-        for (Reservation res : reservations) {
-            view.appendOutput(res.getGuestName());
+        view.appendOutput("Choose the number of the day:");
+        view.appendOutput("Use decimals from 0.5 to 1.5:");
+
+        for (int i = 0; i < 31; i++){
+            view.appendOutput("Day " + (i + 1));
         }
     }
 

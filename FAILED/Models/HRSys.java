@@ -460,14 +460,14 @@ public class HRSys {
 
         int choice;
 
-        // blank();
-        // System.out.println("Select the type of room to add:");
-        // System.out.println("1: Standard Room");
-        // System.out.println("2: Deluxe Room");
-        // System.out.println("3: Executive Room");
-        // blank();
+        blank();
+        System.out.println("Select the type of room to add:");
+        System.out.println("1: Standard Room");
+        System.out.println("2: Deluxe Room");
+        System.out.println("3: Executive Room");
+        blank();
 
-        // System.out.println("Enter the number of your choice: ");
+        System.out.println("Enter the number of your choice: ");
         choice = type;
 
         // while (choice < 1 || choice > 3) {
@@ -745,45 +745,6 @@ public class HRSys {
     public ArrayList<Reservation> getAllReservations(String name){
         int hotelNumber = getHotelIndex(name);
         return hotels.get(hotelNumber).getReservations();
-    }
-
-    public ArrayList<Room> getBookedStdRoom(String name){
-        int hotelNumber = getHotelIndex(name);
-        ArrayList<Room> bookRooms = new ArrayList<Room>();
-
-        for (Room room : hotels.get(hotelNumber).getRooms(1)) {
-            if (room.isBook()) {
-                bookRooms.add(room);
-            }
-        }
-
-        return bookRooms;
-    }
-
-    public ArrayList<Room> getBookedDelRoom(String name){
-        int hotelNumber = getHotelIndex(name);
-        ArrayList<Room> bookRooms = new ArrayList<Room>();
-
-        for (Room room : hotels.get(hotelNumber).getRooms(2)) {
-            if (room.isBook()) {
-                bookRooms.add(room);
-            }
-        }
-
-        return bookRooms;
-    }
-
-    public ArrayList<Room> getBookedExecRoom(String name){
-        int hotelNumber = getHotelIndex(name);
-        ArrayList<Room> bookRooms = new ArrayList<Room>();
-
-        for (Room room : hotels.get(hotelNumber).getRooms(3)) {
-            if (room.isBook()) {
-                bookRooms.add(room);
-            }
-        }
-
-        return bookRooms;
     }
 
 
